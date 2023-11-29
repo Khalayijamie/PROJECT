@@ -249,4 +249,34 @@ public function viewchart()
         return view('admin.charts',compact('datasets', 'labels'));
     
 }
+public function productchart()
+{
+    $products = Product::all(); // Assuming you have a Product model
+
+    $labels = [];
+    $data = [];
+    $colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#008000', '#000080', '#808000', '#800080', '#008080'];
+
+    foreach ($products as $index => $product) {
+        $count = Order::where('product_id', $product->id)
+            ->whereYear('created_at', date('Y'))
+            ->count();
+
+        array_push($labels, $product->name); // Assuming you have a 'name' column in your Product model
+        array_push($data, $count);
+    }
+
+    $datasets = [
+        [
+            'label' => 'Products',
+            'data' => $data,
+            'backgroundColor' => $colors
+        ]
+    ];
+
+    return view('admin.productchart', compact('datasets', 'labels'));
 }
+
+}
+
+
