@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;   
 use Illuminate\Support\Facades\Session;
 use Stripe;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -84,6 +85,9 @@ class HomeController extends Controller
            $cart->quantity=$request->quantity;
 
            $cart->save();
+
+           Alert::success('Your reservation has been made successfully','We have reserved a space for you');
+           
            return redirect()->back();
         }
 
@@ -277,6 +281,9 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Thank you for your message! We will get back to you soon.');
     }
 }
+
+
+
 
 
 
